@@ -2,6 +2,7 @@
 import { Team, Member } from '@/lib/models/team';
 import { X, Mail, Phone, Calendar, DollarSign, Users } from 'lucide-react';
 import { useEffect } from 'react';
+import { transformPaymentUrl } from '@/utils/transformPaymentUrl';
 
 interface TeamDetailDrawerProps {
     team: Team | null;
@@ -91,7 +92,7 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                                 </span>
                                 <div>
                                     <a
-                                        href={team.payment.slip}
+                                        href={transformPaymentUrl(team.payment.slip)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-sm text-primary hover:underline"
@@ -174,7 +175,7 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Phone className="h-3 w-3" />
-                            <a 
+                            <a
                                 href={`https://wa.me/${formatPhoneForWhatsApp(member.phone)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"

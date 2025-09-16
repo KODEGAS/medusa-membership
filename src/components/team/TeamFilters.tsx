@@ -1,13 +1,19 @@
 "use client";
 import { useTeamFilters } from '@/lib/state/teamFilters';
+import { useTeamQuery } from '@/lib/hooks/useTeamQuery';
 import { ChangeEvent } from 'react';
 
 export function TeamFilters() {
-    const { search, setSearch, reset } = useTeamFilters();
+    const { search, setSearch } = useTeamFilters();
+    const { refetch, isRefetching } = useTeamQuery();
 
     function onSearch(e: ChangeEvent<HTMLInputElement>) {
         setSearch(e.target.value);
     }
+
+    const handleRefresh = () => {
+        refetch();
+    };
 
     return (
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between py-2">
@@ -21,10 +27,13 @@ export function TeamFilters() {
             </div>
             <div className="flex items-center gap-2 justify-end">
                 <button
-                    onClick={reset}
-                    className="text-xs px-2 py-1 rounded-md border hover:bg-muted transition-colors"
+                    onClick={handleRefresh}
+                    disabled={isRefetching}
+                    className="text-xs px-2 py-1 rounded-md border hover:bg-muted transition-colors disabled:opacity-50"
                     type="button"
-                >Reset</button>
+                >
+                    {isRefetching ? 'Refreshing...' : 'Refresh'}
+                </button>
             </div>
         </div>
     );
