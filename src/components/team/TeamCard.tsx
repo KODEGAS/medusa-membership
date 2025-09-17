@@ -2,6 +2,7 @@
 import { Team } from "@/lib/models/team";
 import { memo } from "react";
 import { Check } from "lucide-react";
+import { formatCardDate } from "@/utils/formatDate";
 
 interface TeamCardProps {
     team: Team;
@@ -69,7 +70,9 @@ export const TeamCard = memo(function TeamCard({ team, onClick, isSelected = fal
             </div>
             <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1">
                 <span>{members.length} member{members.length !== 1 ? 's' : ''}</span>
-                <time dateTime={team.createdAt}>{new Date(team.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</time>
+                <time dateTime={team.createdAt}>
+                    {formatCardDate(team.createdAt)}
+                </time>
             </div>
         </div>
     );

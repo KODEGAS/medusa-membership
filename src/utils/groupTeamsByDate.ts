@@ -1,4 +1,5 @@
 import { Team } from '@/lib/models/team';
+import { formatGroupDate } from './formatDate';
 
 export interface GroupedTeams {
   date: string; // YYYY-MM-DD
@@ -8,7 +9,11 @@ export interface GroupedTeams {
 
 function toDay(dateStr: string) {
   const d = new Date(dateStr);
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0, 10);
+  // Use UTC methods to avoid timezone issues
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export function groupTeamsByDate(teams: Team[]): GroupedTeams[] {
@@ -23,7 +28,7 @@ export function groupTeamsByDate(teams: Team[]): GroupedTeams[] {
     .map(([date, list]) => ({
       date,
       teams: list.sort((a, b) => a.teamName.localeCompare(b.teamName)),
-      display: new Date(date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+      display: formatGroupDate(date)
     }))
     .sort((a, b) => b.date.localeCompare(a.date));
 }

@@ -3,6 +3,7 @@ import { Team, Member } from '@/lib/models/team';
 import { X, Mail, Phone, Calendar, DollarSign, Users } from 'lucide-react';
 import { useEffect } from 'react';
 import { transformPaymentUrl } from '@/utils/transformPaymentUrl';
+import { formatDetailDate, formatCardDate } from '@/utils/formatDate';
 
 interface TeamDetailDrawerProps {
     team: Team | null;
@@ -64,13 +65,7 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                         <InfoCard
                             icon={<Calendar className="h-4 w-4" />}
                             label="Registered"
-                            value={new Date(team.createdAt).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            })}
+                            value={formatDetailDate(team.createdAt)}
                         />
                         <InfoCard
                             icon={<Users className="h-4 w-4" />}
@@ -186,7 +181,7 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
-                            Joined {new Date(member.createdAt).toLocaleDateString()}
+                            Joined {formatCardDate(member.createdAt)}
                         </div>
                     </div>
                 </div>
