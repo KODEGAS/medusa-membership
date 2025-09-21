@@ -74,6 +74,42 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                         />
                     </div>
 
+                    {/* Leader Information (if available) */}
+                    {(team.leaderName || team.leaderEmail || team.leaderPhone) && (
+                        <div className="border rounded-lg p-4">
+                            <div className="flex items-center gap-2 mb-3">
+                                <Users className="h-4 w-4" />
+                                <h3 className="font-medium">Team Leader</h3>
+                            </div>
+                            <div className="space-y-2">
+                                {team.leaderName && (
+                                    <div className="font-medium">{team.leaderName}</div>
+                                )}
+                                {team.leaderEmail && (
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Mail className="h-3 w-3" />
+                                        <a href={`mailto:${team.leaderEmail}`} className="hover:text-primary">
+                                            {team.leaderEmail}
+                                        </a>
+                                    </div>
+                                )}
+                                {team.leaderPhone && (
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Phone className="h-3 w-3" />
+                                        <a
+                                            href={`https://wa.me/${team.leaderPhone.replace(/[\s\-\(\)]/g, '')}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:text-primary"
+                                        >
+                                            {team.leaderPhone}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Payment Status */}
                     <div className="border rounded-lg p-4">
                         <div className="flex items-center gap-2 mb-3">
@@ -111,7 +147,7 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                         </div>
                         <div className="space-y-3">
                             {team.members.map((member, index) => (
-                                <MemberCard key={member._id} member={member} index={index} />
+                                <MemberCard key={member._id} member={member} index={index} teamUniversity={team.university} />
                             ))}
                         </div>
                     </div>
@@ -144,7 +180,7 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
     );
 }
 
-function MemberCard({ member, index }: { member: Member; index: number }) {
+function MemberCard({ member, index, teamUniversity }: { member: Member; index: number; teamUniversity: string }) {
     // Format phone number for WhatsApp (remove spaces, dashes, parentheses)
     const formatPhoneForWhatsApp = (phone: string) => {
         return phone.replace(/[\s\-\(\)]/g, '');
@@ -160,6 +196,11 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
                     <div className="flex items-center gap-2 mb-2">
                         <h4 className="font-medium text-sm">{member.name}</h4>
                         <span className="text-xs px-2 py-1 bg-muted rounded-full">#{index + 1}</span>
+                        {member.position && (
+                            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
+                                {member.position}
+                            </span>
+                        )}
                     </div>
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -179,6 +220,12 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
                                 {member.phone}
                             </a>
                         </div>
+                        {member.university && member.university !== teamUniversity && (
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <Users className="h-3 w-3" />
+                                {member.university}
+                            </div>
+                        )}
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
                             Joined {formatCardDate(member.createdAt)}
