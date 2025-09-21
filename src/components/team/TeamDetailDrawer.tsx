@@ -4,6 +4,7 @@ import { X, Mail, Phone, Calendar, DollarSign, Users } from 'lucide-react';
 import { useEffect } from 'react';
 import { transformPaymentUrl } from '@/utils/transformPaymentUrl';
 import { formatDetailDate, formatCardDate } from '@/utils/formatDate';
+import { getTeamSize, getTeamSizeDescription } from '@/utils/teamSize';
 
 interface TeamDetailDrawerProps {
     team: Team | null;
@@ -70,7 +71,7 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                         <InfoCard
                             icon={<Users className="h-4 w-4" />}
                             label="Team Size"
-                            value={`${team.members.length} member${team.members.length !== 1 ? 's' : ''}`}
+                            value={getTeamSizeDescription(team)}
                         />
                     </div>
 
@@ -147,7 +148,7 @@ export function TeamDetailDrawer({ team, isOpen, onClose }: TeamDetailDrawerProp
                         </div>
                         <div className="space-y-3">
                             {team.members.map((member, index) => (
-                                <MemberCard key={member._id} member={member} index={index} teamUniversity={team.university} />
+                                <MemberCard key={member._id} member={member} index={index} />
                             ))}
                         </div>
                     </div>
@@ -180,7 +181,7 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
     );
 }
 
-function MemberCard({ member, index, teamUniversity }: { member: Member; index: number; teamUniversity: string }) {
+function MemberCard({ member, index }: { member: Member; index: number }) {
     // Format phone number for WhatsApp (remove spaces, dashes, parentheses)
     const formatPhoneForWhatsApp = (phone: string) => {
         return phone.replace(/[\s\-\(\)]/g, '');
@@ -196,11 +197,6 @@ function MemberCard({ member, index, teamUniversity }: { member: Member; index: 
                     <div className="flex items-center gap-2 mb-2">
                         <h4 className="font-medium text-sm">{member.name}</h4>
                         <span className="text-xs px-2 py-1 bg-muted rounded-full">#{index + 1}</span>
-                        {member.position && (
-                            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
-                                {member.position}
-                            </span>
-                        )}
                     </div>
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -220,12 +216,6 @@ function MemberCard({ member, index, teamUniversity }: { member: Member; index: 
                                 {member.phone}
                             </a>
                         </div>
-                        {member.university && member.university !== teamUniversity && (
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                <Users className="h-3 w-3" />
-                                {member.university}
-                            </div>
-                        )}
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
                             Joined {formatCardDate(member.createdAt)}

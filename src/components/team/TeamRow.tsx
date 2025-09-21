@@ -1,5 +1,6 @@
 "use client";
 import { Team } from '@/lib/models/team';
+import { getTeamSize } from '@/utils/teamSize';
 
 interface TeamRowProps {
     team: Team;
@@ -7,6 +8,8 @@ interface TeamRowProps {
 }
 
 export function TeamRow({ team, onClick }: TeamRowProps) {
+    const teamSize = getTeamSize(team);
+    
     return (
         <tr
             className="hover:bg-muted/40 transition-colors cursor-pointer"
@@ -21,7 +24,7 @@ export function TeamRow({ team, onClick }: TeamRowProps) {
             <td className="text-sm">{team.university}</td>
             <td className="text-sm">
                 <div className="flex flex-col gap-1">
-                    <span className="font-medium">{team.members.length} member{team.members.length !== 1 ? 's' : ''}</span>
+                    <span className="font-medium">{teamSize} member{teamSize !== 1 ? 's' : ''}</span>
                     {team.members.slice(0, 2).map(m => (
                         <span key={m._id} className="text-xs text-muted-foreground">{m.name}</span>
                     ))}

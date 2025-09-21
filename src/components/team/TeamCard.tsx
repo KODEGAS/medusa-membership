@@ -3,6 +3,7 @@ import { Team } from "@/lib/models/team";
 import { memo } from "react";
 import { Check } from "lucide-react";
 import { formatCardDate } from "@/utils/formatDate";
+import { getTeamSize } from "@/utils/teamSize";
 
 interface TeamCardProps {
     team: Team;
@@ -16,6 +17,7 @@ export const TeamCard = memo(function TeamCard({ team, onClick, isSelected = fal
     const visible = members.slice(0, 4);
     const remaining = members.length - visible.length;
     const paid = !!team.payment;
+    const teamSize = getTeamSize(team);
 
     const handleCardClick = () => {
         if (onClick) {
@@ -38,7 +40,7 @@ export const TeamCard = memo(function TeamCard({ team, onClick, isSelected = fal
             role="button"
             onClick={handleCardClick}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCardClick(); } }}
-            aria-label={`Team ${team.teamName} with ${members.length} members`}
+            aria-label={`Team ${team.teamName} with ${teamSize} members`}
             aria-expanded={false}
         >
             <div
@@ -69,7 +71,7 @@ export const TeamCard = memo(function TeamCard({ team, onClick, isSelected = fal
                 <span className="sr-only">Full members: {members.map(m => m.name).join(', ')}</span>
             </div>
             <div className="flex items-center justify-between text-[10px] text-muted-foreground pt-1">
-                <span>{members.length} member{members.length !== 1 ? 's' : ''}</span>
+                <span>{teamSize} member{teamSize !== 1 ? 's' : ''}</span>
                 <time dateTime={team.createdAt}>
                     {formatCardDate(team.createdAt)}
                 </time>

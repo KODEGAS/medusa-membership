@@ -5,8 +5,6 @@ export const MemberSchema = z.object({
   name: z.string().min(1),
   email: z.string().min(1), // More lenient email validation to handle test data
   phone: z.string(),
-  position: z.string().optional(), // Some members have a position field
-  university: z.string().optional(), // Some members have a university field
   createdAt: z.string().datetime()
 });
 
