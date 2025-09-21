@@ -48,8 +48,8 @@ export const TeamCard = memo(function TeamCard({ team, onClick, isSelected = fal
                 onClick={handleCheckboxClick}
             >
                 <div className={`w-5 h-5 border-2 rounded ${isSelected
-                        ? 'bg-blue-500 border-blue-500 text-white'
-                        : 'border-gray-300 hover:border-gray-400'
+                    ? 'bg-blue-500 border-blue-500 text-white'
+                    : 'border-gray-300 hover:border-gray-400'
                     } flex items-center justify-center cursor-pointer`}>
                     {isSelected && <Check size={12} />}
                 </div>

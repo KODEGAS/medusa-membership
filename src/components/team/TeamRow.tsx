@@ -9,7 +9,7 @@ interface TeamRowProps {
 
 export function TeamRow({ team, onClick }: TeamRowProps) {
     const teamSize = getTeamSize(team);
-    
+
     return (
         <tr
             className="hover:bg-muted/40 transition-colors cursor-pointer"

@@ -4,7 +4,7 @@ import { X, Mail, Phone, Calendar, DollarSign, Users } from 'lucide-react';
 import { useEffect } from 'react';
 import { transformPaymentUrl } from '@/utils/transformPaymentUrl';
 import { formatDetailDate, formatCardDate } from '@/utils/formatDate';
-import { getTeamSize, getTeamSizeDescription } from '@/utils/teamSize';
+import { getTeamSizeDescription } from '@/utils/teamSize';
 
 interface TeamDetailDrawerProps {
     team: Team | null;
