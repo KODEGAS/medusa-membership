@@ -33,6 +33,10 @@ export function PaymentDonut({ paid, unpaid }: PaymentDonutProps) {
                     <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Paid: <span className="font-medium tabular-nums">{paid}</span></li>
                     <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500" /> Unpaid: <span className="font-medium tabular-nums">{unpaid}</span></li>
                     <li>Total: <span className="font-medium tabular-nums">{total}</span></li>
+                    <li className="pt-1 border-t border-gray-200">
+                        <div className="font-medium text-green-600">Revenue: Rs. {(paid * 3000).toLocaleString()}</div>
+                        <div className="text-muted-foreground">Fee: Rs. 3,000/team</div>
+                    </li>
                 </ul>
             </div>
         </div>

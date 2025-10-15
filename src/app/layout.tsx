@@ -19,7 +19,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                                 <span className="font-semibold tracking-tight">Team Portal</span>
                                 <div className="flex items-center gap-3">
                                     <Link href="/team" className="text-muted-foreground hover:text-foreground transition-colors">Directory</Link>
-                                    <Link href="/team-summary" className="text-muted-foreground hover:text-foreground transition-colors">Summary</Link>
+                                    <Link href="/brief-summary" className="text-muted-foreground hover:text-foreground transition-colors">Brief</Link>
+                                    <Link href="/team-summary" className="text-muted-foreground hover:text-foreground transition-colors">Detailed</Link>
                                 </div>
                             </div>
                         </nav>
